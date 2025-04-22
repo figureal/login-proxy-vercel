@@ -20,9 +20,19 @@ export default async function handler(req) {
   // Kiểm tra phương thức POST
   if (method === 'POST') {
     try {
-      const { username, password } = await req.json();
+      // Kiểm tra nếu dữ liệu có trong body không và phải là JSON
+      const requestBody = await req.json();
+
+      // Kiểm tra nếu dữ liệu có trường 'username' và 'password'
+      const { username, password } = requestBody;
+
+      if (!username || !password) {
+        return new Response('Bad Request: Missing username or password', { status: 400 });
+      }
+
       console.log('Nhận form:', { username, password });
 
+      // Trả về phản hồi thành công
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: {
@@ -31,7 +41,7 @@ export default async function handler(req) {
       });
     } catch (error) {
       console.error('Lỗi khi xử lý dữ liệu:', error);
-      return new Response('Bad Request', { status: 400 });
+      return new Response('Bad Request: Invalid JSON format', { status: 400 });
     }
   }
 
