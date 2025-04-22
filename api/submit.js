@@ -1,21 +1,29 @@
-export default async function handler(req, res) {
-  // CORS headers cho phép frontend gọi tới
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+export const config = {
+  runtime: 'edge',
+};
 
-  // Xử lý preflight
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
+export default async function handler(req) {
+  // CORS headers
+  const { headers, method } = req;
+  if (method === 'OPTIONS') {
+    return new Response(null, {
+      status: 204,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'POST,OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type',
+      },
+    });
   }
 
-  // Chỉ xử lý POST
-  if (req.method === 'POST') {
-    const { username, password } = req.body;
+  if (method === 'POST') {
+    const { username, password } = await req.json();
     console.log('Nhận form:', { username, password });
-    return res.status(200).json({ success: true });
+    return new Response(JSON.stringify({ success: true }), {
+      status: 200,
+      headers: { 'Access-Control-Allow-Origin': '*' },
+    });
   }
 
-  return res.status(405).json({ error: 'Method not allowed' });
+  return new Response('Method Not Allowed', { status: 405 });
 }
-
